@@ -1,18 +1,14 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  ImageBackground,
-  View,
-  // Image,
-} from "react-native";
+import { StyleSheet, ImageBackground, View } from "react-native";
 import { useForm } from "react-hook-form";
 import { Button, Icon, Text } from "@ui-kitten/components";
 import AppInputField from "../Form/AppInputField";
 import { Ionicons } from "@expo/vector-icons";
+import UploadImage from "../uploadImage/UploadImage";
 
-export default function ExtraSignUp({ navigation }) {
+export default function AddItemForm() {
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [imgURL, setImgURL] = useState();
 
   const {
     control,
@@ -20,24 +16,24 @@ export default function ExtraSignUp({ navigation }) {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      name: "",
-      email: "",
-      password: "",
+      itemName: "",
+      companyName: "",
+      weight: "",
+      price: "",
+      itemsInStock: "",
     },
   });
 
   const onSubmit = async (data) => {
-    console.log("data", data);
-  };
-
-  const handleAlreadyAccount = () => {
     // navigation.navigate("login");
-    // console.log("alreadt account");
+
+    console.log("formData", data);
+    console.log("image Url", imgURL);
   };
 
   return (
     <ImageBackground
-      source={require("../../assets/cart1.jpg")}
+      source={require("../../assets/cart5.jpg")}
       resizeMode="stretch"
       style={styles.container}
       blurRadius={20}
@@ -54,43 +50,52 @@ export default function ExtraSignUp({ navigation }) {
       </View>
       <View style={styles.textContainer}>
         <Text category="h2" status="control">
-          Sign Up to Digicart
+          Add Item Details
         </Text>
       </View>
 
       <View style={styles.formContainer}>
         <AppInputField
-          name="name"
-          placeholder="Full Name"
-          icon="person"
+          name="itemName"
+          placeholder="Item Full Name"
           control={control}
           errors={errors}
         />
         <AppInputField
-          name="email"
-          placeholder="Valid Email"
-          icon="mail"
-          control={control}
-          errors={errors}
-        />
-        <AppInputField
-          name="password"
-          placeholder="Password"
+          name="companyName"
+          placeholder="Item Company Name"
           control={control}
           errors={errors}
         />
 
+        <AppInputField
+          name="weight"
+          placeholder="Item Gross Weight"
+          keyboardType="numeric"
+          control={control}
+          errors={errors}
+        />
+
+        <AppInputField
+          name="price"
+          placeholder="Item Price"
+          keyboardType="numeric"
+          control={control}
+          errors={errors}
+        />
+        <AppInputField
+          name="itemsInStock"
+          placeholder="Items in Stock"
+          keyboardType="numeric"
+          control={control}
+          errors={errors}
+        />
+
+        <UploadImage setImgURL={setImgURL} />
+
         <View style={styles.buttonContainer}>
           <Button size="giant" onPress={handleSubmit(onSubmit)}>
-            SIGN UP
-          </Button>
-          <Button
-            style={{ marginTop: 7 }}
-            appearance="ghost"
-            status="control"
-            onPress={handleAlreadyAccount}
-          >
-            Already have an account? Log In
+            Generate QR Code
           </Button>
         </View>
       </View>
@@ -105,7 +110,8 @@ const styles = StyleSheet.create({
   },
   imageConatiner: {
     display: "flex",
-    flex: 0.3,
+    // backgroundColor: "black",
+    flex: 0.13,
     justifyContent: "center",
     alignItems: "center",
   },
